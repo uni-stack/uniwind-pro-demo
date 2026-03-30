@@ -1,6 +1,5 @@
 import { Pressable, Text, View } from 'react-native'
-import { ThemeTransitionPreset, Uniwind, useUniwind } from 'uniwind'
-import '../global.css'
+import { ThemeTransitionPreset, Uniwind, useResolveClassNames, useUniwind } from 'uniwind'
 
 const transitions = [
   { label: 'Fade', preset: ThemeTransitionPreset.Fade },

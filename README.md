@@ -6,7 +6,7 @@ A demo project showcasing [Uniwind Pro](https://uniwind.dev) with Expo SDK 54 an
 
 ```bash
 bun install
-cd ios && pod install && cd ..
+bun expo prebuild
 bun run ios
 ```
 
@@ -20,7 +20,7 @@ You can copy `uniwind-pro-demo-ios-only-rn.0.81.5.tgz` to your project and insta
 }
 ```
 
-Then run `bun install && cd ios && pod install`.
+Then run `bun install && cd ios && pod install (or expo prebuild)`.
 
 ### Limitations
 
