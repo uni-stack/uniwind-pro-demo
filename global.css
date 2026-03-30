@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+@import 'uniwind';
+
+@layer theme {
+  :root {
+    @variant light {
+      --color-background: #ffffff;
+      --color-foreground: #111827;
+      --color-card: #f3f4f6;
+      --color-card-foreground: #1f2937;
+      --color-muted: #9ca3af;
+      --color-primary: #6366f1;
+      --color-primary-foreground: #ffffff;
+    }
+
+    @variant dark {
+      --color-background: #030712;
+      --color-foreground: #f9fafb;
+      --color-card: #1f2937;
+      --color-card-foreground: #f3f4f6;
+      --color-muted: #6b7280;
+      --color-primary: #818cf8;
+      --color-primary-foreground: #ffffff;
+    }
+  }
+}
