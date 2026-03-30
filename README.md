@@ -25,7 +25,7 @@ Then run `bun install && cd ios && pod install`.
 ### Limitations
 
 - **iOS Simulator only** -- no device builds, no Android
-- **Expo SDK 54** and **React Native 0.81.0** only
+- **Expo SDK 54** and **React Native 0.81.5** only
 - XCFramework is prebuilt for simulator arm64
 
 Using a different React Native version will result in a build failure or runtime crash.
