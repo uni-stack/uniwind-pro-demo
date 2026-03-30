@@ -22,6 +22,9 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "android": {
+      "package": "com.codemask.uniwindprodemo"
     }
   }
 }
