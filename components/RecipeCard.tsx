@@ -32,7 +32,7 @@ export function RecipeCard({ recipe, mode, index = 0, highlight = false }: Props
     return (
       <Pressable
         onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: recipe.id } })}
-        className={`flex-1 rounded-3xl overflow-hidden active:opacity-80 active:scale-95 mx-0.5 uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out ${delayClass} ${shakeClass}`}
+        className={`flex-1 bg-card rounded-3xl overflow-hidden active:opacity-80 active:scale-95 uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out ${delayClass} ${shakeClass}`}
         style={{
           shadowColor: recipe.cardColor,
           shadowOffset: { width: 0, height: 3 },
@@ -42,7 +42,7 @@ export function RecipeCard({ recipe, mode, index = 0, highlight = false }: Props
       >
         {/* Color hero */}
         <View
-          className="aspect-square items-center justify-center rounded-3xl"
+          className="aspect-square items-center justify-center"
           style={{ backgroundColor: recipe.cardColor + '22' }}
         >
           <View
@@ -53,13 +53,13 @@ export function RecipeCard({ recipe, mode, index = 0, highlight = false }: Props
           </View>
           {/* Difficulty dot */}
           <View
-            className="absolute top-2 right-2 w-2 h-2 rounded-full"
+            className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full"
             style={{ backgroundColor: DIFFICULTY_COLORS[recipe.difficulty] }}
           />
         </View>
 
         {/* Info */}
-        <View className="bg-card px-2.5 py-2.5 gap-0.5">
+        <View className="px-2.5 py-2.5 gap-0.5">
           <Text
             className="text-card-foreground text-xs font-bold leading-tight"
             numberOfLines={2}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { RECIPES } from '../data/recipes';
@@ -22,25 +22,9 @@ const CATEGORIES = [
 
 const UniIonicons = withUniwind(Ionicons)
 
-function getRandomRecipeId(excludeId?: string): string {
-  const candidates = excludeId
-    ? RECIPES.filter((r) => r.id !== excludeId)
-    : RECIPES;
-  return candidates[Math.floor(Math.random() * candidates.length)].id;
-}
-
 export default function HomeScreen() {
   const [layout, setLayout] = useState<LayoutMode>('list');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [highlightId, setHighlightId] = useState(() => getRandomRecipeId());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHighlightId((prev) => getRandomRecipeId(prev));
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const filteredRecipes =
     selectedCategory === 'All'
@@ -48,12 +32,12 @@ export default function HomeScreen() {
       : RECIPES.filter((r) => r.category === selectedCategory);
 
   const renderListItem = useCallback(({ item, index }: { item: Recipe; index: number }) => (
-    <RecipeCard recipe={item} mode="list" index={index} highlight={item.id === highlightId} />
-  ), [highlightId]);
+    <RecipeCard recipe={item} mode="list" index={index} />
+  ), []);
 
   const renderGridItem = useCallback(({ item, index }: { item: Recipe; index: number }) => (
-    <RecipeCard recipe={item} mode="grid" index={index} highlight={item.id === highlightId} />
-  ), [highlightId]);
+    <RecipeCard recipe={item} mode="grid" index={index} />
+  ), []);
 
   return (
     <View className="flex-1 bg-background">
@@ -151,8 +135,8 @@ export default function HomeScreen() {
           keyExtractor={(r) => r.id}
           renderItem={renderGridItem}
           numColumns={3}
-          columnWrapperClassName="gap-2 px-4"
-          contentContainerClassName="pb-safe-offset-24 gap-2 pt-2"
+          columnWrapperClassName="gap-3 px-4"
+          contentContainerClassName="pb-safe-offset-24 gap-3 pt-2"
           showsVerticalScrollIndicator={false}
         />
       )}

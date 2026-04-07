@@ -39,12 +39,14 @@ export default function RecipeScreen() {
       >
         {/* ── Hero ──────────────────────────────────── */}
         <View
-          className="items-center justify-center relative pt-safe-offset-4 pb-8"
-          style={{
-            backgroundColor: recipe.cardColor + '28',
-            minHeight: 280,
-          }}
+          className="items-center justify-center relative pt-safe-offset-4 pb-8 bg-card"
+          style={{ minHeight: 280 }}
         >
+          {/* Recipe color overlay */}
+          <View
+            className="absolute inset-0 opacity-15"
+            style={{ backgroundColor: recipe.cardColor }}
+          />
           {/* Decorative circles */}
           <View
             className="absolute -top-10 -right-10 w-48 h-48 rounded-full opacity-20"
@@ -65,9 +67,8 @@ export default function RecipeScreen() {
 
           {/* Emoji */}
           <View
-            className="w-28 h-28 rounded-3xl items-center justify-center mb-5 uw-entering-zoom-in uw-entering-delay-400"
+            className="w-28 h-28 rounded-3xl items-center justify-center mb-5 bg-surface uw-entering-zoom-in uw-entering-delay-400"
             style={{
-              backgroundColor: recipe.cardColor + '44',
               shadowColor: recipe.cardColor,
               shadowOffset: { width: 0, height: 8 },
               shadowOpacity: 0.35,

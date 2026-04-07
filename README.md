@@ -1,6 +1,6 @@
 # Uniwind Pro Demo
 
-A prebuilt demo app showcasing [Uniwind Pro](https://uniwind.dev/pricing) features: the C++ engine, ShadowTree updates, Reanimated animations, and native theme transitions.
+A prebuilt demo app showcasing [Uniwind Pro](https://uniwind.dev/pricing) features: the C++ engine, ShadowTree updates, Reanimated animations, and native theme transitions. Vibecoded with [Uniwind skill](https://skills.sh/uni-stack/uniwind/uniwind).
 
 > **This demo includes a prebuilt XCFramework for iOS Simulator (arm64) only.** No Uniwind Pro license is required. No Android support.
 
