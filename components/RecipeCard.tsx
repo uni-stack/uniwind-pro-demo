@@ -6,7 +6,16 @@ import type { Recipe } from '../data/recipes';
 type Props = {
   recipe: Recipe;
   mode: 'list' | 'grid';
+  index?: number;
+  highlight?: boolean;
 };
+
+const STAGGER_DELAYS = [
+  'uw-entering-delay-75',
+  'uw-entering-delay-150',
+  'uw-entering-delay-200',
+  'uw-entering-delay-300',
+] as const;
 
 const DIFFICULTY_COLORS: Record<Recipe['difficulty'], string> = {
   Easy: '#22c55e',
@@ -14,20 +23,21 @@ const DIFFICULTY_COLORS: Record<Recipe['difficulty'], string> = {
   Hard: '#ef4444',
 };
 
-export function RecipeCard({ recipe, mode }: Props) {
+export function RecipeCard({ recipe, mode, index = 0, highlight = false }: Props) {
   const router = useRouter();
+  const delayClass = STAGGER_DELAYS[Math.min(index, 3)] ?? '';
+  const shakeClass = highlight ? 'animate-wiggle' : '';
 
   if (mode === 'grid') {
     return (
       <Pressable
-        onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: recipe.id } } as unknown as Href)}
-        className="flex-1 rounded-3xl overflow-hidden active:opacity-80 active:scale-95 mx-0.5 uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out"
+        onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: recipe.id } })}
+        className={`flex-1 rounded-3xl overflow-hidden active:opacity-80 active:scale-95 mx-0.5 uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out ${delayClass} ${shakeClass}`}
         style={{
           shadowColor: recipe.cardColor,
           shadowOffset: { width: 0, height: 3 },
           shadowOpacity: 0.18,
           shadowRadius: 6,
-          elevation: 4,
         }}
       >
         {/* Color hero */}
@@ -67,14 +77,13 @@ export function RecipeCard({ recipe, mode }: Props) {
   // List mode
   return (
     <Pressable
-      onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: recipe.id } } as unknown as Href)}
-      className="bg-card rounded-3xl overflow-hidden flex-row active:opacity-80 active:scale-[0.99] uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out"
+      onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: recipe.id } })}
+      className={`bg-card rounded-3xl overflow-hidden flex-row active:opacity-80 active:scale-[0.99] uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out ${delayClass} ${shakeClass}`}
       style={{
         shadowColor: recipe.cardColor,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.15,
         shadowRadius: 10,
-        elevation: 4,
       }}
     >
       {/* Color tile */}
@@ -82,9 +91,9 @@ export function RecipeCard({ recipe, mode }: Props) {
         className="w-24 items-center justify-center"
         style={{ backgroundColor: recipe.cardColor + '28' }}
       >
-        <Text className="text-5xl">{recipe.emoji}</Text>
+        <Text className="text-5xl leading-relaxed">{recipe.emoji}</Text>
         <View
-          className="absolute bottom-3 left-2 px-2 py-0.5 rounded-full max-w-20"
+          className="absolute bottom-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full max-w-20"
           style={{ backgroundColor: recipe.cardColor + '44' }}
         >
           <Text

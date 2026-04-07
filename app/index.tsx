@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { RECIPES } from '../data/recipes';
 import { RecipeCard } from '../components/RecipeCard';
-import { ThemeSwitcher } from '../components/ThemeSwitcher';
 import type { Recipe } from '../data/recipes';
-import { useCSSVariable } from 'uniwind';
+import { withUniwind } from 'uniwind';
 
 type LayoutMode = 'list' | 'grid';
 
@@ -21,24 +20,40 @@ const CATEGORIES = [
   'Grilling',
 ];
 
+const UniIonicons = withUniwind(Ionicons)
+
+function getRandomRecipeId(excludeId?: string): string {
+  const candidates = excludeId
+    ? RECIPES.filter((r) => r.id !== excludeId)
+    : RECIPES;
+  return candidates[Math.floor(Math.random() * candidates.length)].id;
+}
+
 export default function HomeScreen() {
   const [layout, setLayout] = useState<LayoutMode>('list');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const colorForeground = useCSSVariable('--color-foreground') as string;
-  const colorPrimaryForeground = useCSSVariable('--color-primary-foreground') as string;
+  const [highlightId, setHighlightId] = useState(() => getRandomRecipeId());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHighlightId((prev) => getRandomRecipeId(prev));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const filteredRecipes =
     selectedCategory === 'All'
       ? RECIPES
       : RECIPES.filter((r) => r.category === selectedCategory);
 
-  const renderListItem = ({ item }: { item: Recipe }) => (
-    <RecipeCard recipe={item} mode="list" />
-  );
+  const renderListItem = useCallback(({ item, index }: { item: Recipe; index: number }) => (
+    <RecipeCard recipe={item} mode="list" index={index} highlight={item.id === highlightId} />
+  ), [highlightId]);
 
-  const renderGridItem = ({ item }: { item: Recipe }) => (
-    <RecipeCard recipe={item} mode="grid" />
-  );
+  const renderGridItem = useCallback(({ item, index }: { item: Recipe; index: number }) => (
+    <RecipeCard recipe={item} mode="grid" index={index} highlight={item.id === highlightId} />
+  ), [highlightId]);
 
   return (
     <View className="flex-1 bg-background">
@@ -46,40 +61,42 @@ export default function HomeScreen() {
       <View className="px-6 pb-4 pt-safe-offset-4 bg-background">
         {/* Title row */}
         <View className="flex-row items-start justify-between mb-1">
-          <View>
+          <View className="uw-entering-fade-in-up">
             <Text className="text-foreground text-3xl font-black tracking-tighter leading-tight">
               Recipes
             </Text>
-            <Text className="text-muted text-sm mt-0.5">
+            <Text className="text-muted text-sm mt-0.5 uw-entering-fade-in uw-entering-delay-150">
               {RECIPES.length} handpicked dishes
             </Text>
           </View>
 
           {/* Layout toggle */}
-          <View className="flex-row gap-1 bg-surface rounded-2xl p-1 mt-1">
+          <View className="flex-row gap-1 bg-surface rounded-2xl p-1 mt-1 uw-entering-fade-in uw-entering-delay-200">
             <Pressable
               onPress={() => setLayout('list')}
               data-selected={layout === 'list'}
-              className="w-9 h-9 rounded-xl items-center justify-center
-                data-[selected=true]:bg-primary active:opacity-70"
+              className="w-9 h-9 rounded-xl items-center justify-center data-[selected=true]:bg-primary active:opacity-70 transition-colors"
             >
-              <Ionicons
+              <UniIonicons
                 name="list"
                 size={18}
-                color={layout === 'list' ? colorPrimaryForeground : colorForeground}
+                className='m-auto'
+                data-selected={layout === 'list'}
+                colorClassName='data-selected:accent-primary-foreground accent-primary'
                 style={{ lineHeight: 18, includeFontPadding: false }}
               />
             </Pressable>
             <Pressable
               onPress={() => setLayout('grid')}
               data-selected={layout === 'grid'}
-              className="w-9 h-9 rounded-xl items-center justify-center
-                data-[selected=true]:bg-primary active:opacity-70"
+              className="w-9 h-9 rounded-xl items-center justify-center data-[selected=true]:bg-primary active:opacity-70 transition-colors"
             >
-              <Ionicons
+              <UniIonicons
                 name="grid"
                 size={16}
-                color={layout === 'grid' ? colorPrimaryForeground : colorForeground}
+                className='m-auto'
+                data-selected={layout === 'grid'}
+                colorClassName='data-selected:accent-primary-foreground accent-primary'
                 style={{ lineHeight: 16, includeFontPadding: false }}
               />
             </Pressable>
@@ -98,16 +115,15 @@ export default function HomeScreen() {
           contentContainerClassName="gap-2"
           renderItem={({ item: cat }) => {
             const isActive = selectedCategory === cat;
-return (
+            return (
                 <Pressable
                   onPress={() => setSelectedCategory(cat)}
                   data-selected={isActive}
-                  className="px-3 py-1.5 rounded-full border border-border
-                    data-[selected=true]:bg-primary data-[selected=true]:border-primary
-                    active:opacity-75 transition-colors"
+                  className="px-3 py-1.5 rounded-full border border-primary data-[selected=true]:bg-primary active:opacity-75 transition-colors"
                 >
                   <Text
-                    className={`text-xs font-semibold ${isActive ? 'text-primary-foreground' : 'text-foreground-secondary'}`}
+                    data-selected={isActive}
+                    className="text-xs font-semibold data-selected:text-primary-foreground text-primary"
                     numberOfLines={1}
                   >
                     {cat}
@@ -140,9 +156,6 @@ return (
           showsVerticalScrollIndicator={false}
         />
       )}
-
-      {/* ── FAB Theme Switcher ───────────────────────── */}
-      <ThemeSwitcher />
     </View>
   );
 }
