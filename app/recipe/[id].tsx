@@ -193,29 +193,30 @@ export default function RecipeScreen() {
             </Text>
           </View>
 
-          <View className="gap-4">
+          <View className="gap-0">
             {recipe.steps.map((step, i) => (
               <View key={i} className="flex-row gap-4">
-                {/* Step number */}
-                <View
-                  className="w-8 h-8 rounded-full items-center justify-center shrink-0 mt-0.5"
-                  style={{ backgroundColor: recipe.cardColor }}
-                >
-                  <Text className="text-white text-xs font-black">{i + 1}</Text>
-                </View>
-
-                {/* Step text */}
-                <View className="flex-1">
-                  <Text className="text-card-foreground text-sm leading-relaxed">
-                    {step}
-                  </Text>
-                  {/* Connector line (not for last step) */}
+                {/* Step number + connector */}
+                <View className="w-8 items-center shrink-0">
+                  <View
+                    className="w-8 h-8 rounded-full items-center justify-center mt-0.5"
+                    style={{ backgroundColor: recipe.cardColor }}
+                  >
+                    <Text className="text-white text-xs font-black">{i + 1}</Text>
+                  </View>
                   {i < recipe.steps.length - 1 && (
                     <View
-                      className="w-px h-4 ml-4 mt-2"
+                      className="w-px flex-1 my-2"
                       style={{ backgroundColor: recipe.cardColor + '44' }}
                     />
                   )}
+                </View>
+
+                {/* Step text */}
+                <View className="flex-1 pb-4">
+                  <Text className="text-card-foreground text-sm leading-relaxed mt-1">
+                    {step}
+                  </Text>
                 </View>
               </View>
             ))}

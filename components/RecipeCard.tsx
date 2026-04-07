@@ -1,13 +1,12 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { useRouter, type Href } from 'expo-router';
+import { useRouter } from 'expo-router';
 import type { Recipe } from '../data/recipes';
 
 type Props = {
   recipe: Recipe;
   mode: 'list' | 'grid';
   index?: number;
-  highlight?: boolean;
 };
 
 const STAGGER_DELAYS = [
@@ -23,42 +22,37 @@ const DIFFICULTY_COLORS: Record<Recipe['difficulty'], string> = {
   Hard: '#ef4444',
 };
 
-export function RecipeCard({ recipe, mode, index = 0, highlight = false }: Props) {
+export function RecipeCard({ recipe, mode, index = 0 }: Props) {
   const router = useRouter();
   const delayClass = STAGGER_DELAYS[Math.min(index, 3)] ?? '';
-  const shakeClass = highlight ? 'animate-wiggle' : '';
 
   if (mode === 'grid') {
     return (
       <Pressable
         onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: recipe.id } })}
-        className={`flex-1 bg-card rounded-3xl overflow-hidden active:opacity-80 active:scale-95 uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out ${delayClass} ${shakeClass}`}
+        className={`flex-1 bg-card border border-border rounded-3xl overflow-hidden active:opacity-80 active:scale-95 transition-transform duration-150 uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out ${delayClass}`}
         style={{
           shadowColor: recipe.cardColor,
-          shadowOffset: { width: 0, height: 3 },
-          shadowOpacity: 0.18,
-          shadowRadius: 6,
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 12,
         }}
       >
-        {/* Color hero */}
         <View
           className="aspect-square items-center justify-center"
-          style={{ backgroundColor: recipe.cardColor + '22' }}
+          style={{ backgroundColor: recipe.cardColor + '18' }}
         >
           <View
             className="w-12 h-12 rounded-2xl items-center justify-center"
-            style={{ backgroundColor: recipe.cardColor + '33' }}
+            style={{ backgroundColor: recipe.cardColor + '28' }}
           >
             <Text className="text-3xl">{recipe.emoji}</Text>
           </View>
-          {/* Difficulty dot */}
           <View
             className="absolute top-2.5 right-2.5 w-2 h-2 rounded-full"
             style={{ backgroundColor: DIFFICULTY_COLORS[recipe.difficulty] }}
           />
         </View>
-
-        {/* Info */}
         <View className="px-2.5 py-2.5 gap-0.5">
           <Text
             className="text-card-foreground text-xs font-bold leading-tight"
@@ -74,16 +68,15 @@ export function RecipeCard({ recipe, mode, index = 0, highlight = false }: Props
     );
   }
 
-  // List mode
   return (
     <Pressable
       onPress={() => router.push({ pathname: '/recipe/[id]', params: { id: recipe.id } })}
-      className={`bg-card rounded-3xl overflow-hidden flex-row active:opacity-80 active:scale-[0.99] uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out ${delayClass} ${shakeClass}`}
+      className={`bg-card border border-border rounded-3xl overflow-hidden flex-row active:opacity-80 active:scale-[0.99] transition-transform duration-150 uw-layout-linear-transition uw-entering-fade-in uw-exiting-fade-out ${delayClass}`}
       style={{
         shadowColor: recipe.cardColor,
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 10,
+        shadowOpacity: 0.2,
+        shadowRadius: 12,
       }}
     >
       {/* Color tile */}
@@ -91,7 +84,7 @@ export function RecipeCard({ recipe, mode, index = 0, highlight = false }: Props
         className="w-24 items-center justify-center"
         style={{ backgroundColor: recipe.cardColor + '28' }}
       >
-        <Text className="text-5xl leading-relaxed">{recipe.emoji}</Text>
+        <Text style={{ fontSize: 48, lineHeight: 56 }}>{recipe.emoji}</Text>
         <View
           className="absolute bottom-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full max-w-20"
           style={{ backgroundColor: recipe.cardColor + '44' }}

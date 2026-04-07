@@ -42,9 +42,9 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-background">
       {/* ── Header ──────────────────────────────────── */}
-      <View className="px-6 pb-4 pt-safe-offset-4 bg-background">
+      <View className="pb-4 pt-safe-offset-4 bg-background">
         {/* Title row */}
-        <View className="flex-row items-start justify-between mb-1">
+        <View className="flex-row items-start justify-between mb-1 px-6">
           <View className="uw-entering-fade-in-up">
             <Text className="text-foreground text-3xl font-black tracking-tighter leading-tight">
               Recipes
@@ -55,7 +55,7 @@ export default function HomeScreen() {
           </View>
 
           {/* Layout toggle */}
-          <View className="flex-row gap-1 bg-surface rounded-2xl p-1 mt-1 uw-entering-fade-in uw-entering-delay-200">
+          <View className="flex-row gap-1 bg-surface border border-border rounded-2xl p-1 mt-1 uw-entering-fade-in uw-entering-delay-200">
             <Pressable
               onPress={() => setLayout('list')}
               data-selected={layout === 'list'}
@@ -88,7 +88,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Divider */}
-        <View className="h-px bg-border mt-3 mb-4" />
+        <View className="h-px bg-border mt-3 mb-4 mx-6" />
 
         {/* Category chips */}
         <FlatList
@@ -96,7 +96,7 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           data={CATEGORIES}
           keyExtractor={(c) => c}
-          contentContainerClassName="gap-2"
+          contentContainerClassName="gap-2 px-6"
           renderItem={({ item: cat }) => {
             const isActive = selectedCategory === cat;
             return (

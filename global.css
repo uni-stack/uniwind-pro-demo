@@ -5,18 +5,18 @@
   :root {
     /* ── Default: light-orange ────────────────────── */
     @variant light {
-      --color-background: #fffbf5;
-      --color-foreground: #1c1007;
-      --color-foreground-secondary: #6b4f30;
-      --color-card: #fff7ed;
-      --color-card-foreground: #2d1a08;
-      --color-primary: #ea580c;
+      --color-background: #faf6f1;
+      --color-foreground: #1a0e04;
+      --color-foreground-secondary: #5c3d1e;
+      --color-card: #fff5e9;
+      --color-card-foreground: #1a0e04;
+      --color-primary: #d94f09;
       --color-primary-foreground: #ffffff;
-      --color-primary-subtle: #fed7aa;
-      --color-border: #e8c9a0;
-      --color-muted: #a07850;
-      --color-accent: #f97316;
-      --color-surface: #fef3e2;
+      --color-primary-subtle: #fcc89e;
+      --color-border: #d4a878;
+      --color-muted: #8a6438;
+      --color-accent: #e5650e;
+      --color-surface: #f5e8d4;
     }
 
     /* ── Default: dark-orange ─────────────────────── */
@@ -37,18 +37,18 @@
 
     /* ── light-orange (explicit) ─────────────────── */
     @variant light-orange {
-      --color-background: #fffbf5;
-      --color-foreground: #1c1007;
-      --color-foreground-secondary: #6b4f30;
-      --color-card: #fff7ed;
-      --color-card-foreground: #2d1a08;
-      --color-primary: #ea580c;
+      --color-background: #faf6f1;
+      --color-foreground: #1a0e04;
+      --color-foreground-secondary: #5c3d1e;
+      --color-card: #fff5e9;
+      --color-card-foreground: #1a0e04;
+      --color-primary: #d94f09;
       --color-primary-foreground: #ffffff;
-      --color-primary-subtle: #fed7aa;
-      --color-border: #e8c9a0;
-      --color-muted: #a07850;
-      --color-accent: #f97316;
-      --color-surface: #fef3e2;
+      --color-primary-subtle: #fcc89e;
+      --color-border: #d4a878;
+      --color-muted: #8a6438;
+      --color-accent: #e5650e;
+      --color-surface: #f5e8d4;
     }
 
     /* ── dark-orange ─────────────────────────────── */
