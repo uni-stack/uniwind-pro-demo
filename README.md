@@ -4,6 +4,8 @@ A prebuilt demo app showcasing [Uniwind Pro](https://uniwind.dev/pricing) featur
 
 > **This demo includes a prebuilt XCFramework for iOS Simulator (arm64) only.** No Uniwind Pro license is required. No Android support.
 
+https://github.com/user-attachments/assets/d1492c32-e544-450b-8214-cb661f95b2e4
+
 ## Requirements
 
 - macOS with Xcode installed
