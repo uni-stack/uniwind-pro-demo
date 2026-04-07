@@ -1,49 +1,145 @@
-import { Pressable, Text, View } from 'react-native'
-import { ThemeTransitionPreset, Uniwind, useResolveClassNames, useUniwind } from 'uniwind'
+import React, { useCallback, useState } from 'react';
+import { FlatList, Pressable, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { RECIPES } from '../data/recipes';
+import { RecipeCard } from '../components/RecipeCard';
+import type { Recipe } from '../data/recipes';
+import { withUniwind } from 'uniwind';
 
-const transitions = [
-  { label: 'Fade', preset: ThemeTransitionPreset.Fade },
-  { label: 'Circle Center', preset: ThemeTransitionPreset.CircleCenter },
-  { label: 'Slide Right', preset: ThemeTransitionPreset.SlideLeftToRight },
-  { label: 'Blur', preset: ThemeTransitionPreset.Blur },
-] as const
+type LayoutMode = 'list' | 'grid';
+
+const CATEGORIES = [
+  'All',
+  'Pasta',
+  'Salad',
+  'Soup',
+  'Dessert',
+  'Breakfast',
+  'Asian',
+  'Mediterranean',
+  'Grilling',
+];
+
+const UniIonicons = withUniwind(Ionicons)
 
 export default function HomeScreen() {
-  const { theme } = useUniwind()
-  const nextTheme = theme === 'dark' ? 'light' : 'dark'
+  const [layout, setLayout] = useState<LayoutMode>('list');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const filteredRecipes =
+    selectedCategory === 'All'
+      ? RECIPES
+      : RECIPES.filter((r) => r.category === selectedCategory);
+
+  const renderListItem = useCallback(({ item, index }: { item: Recipe; index: number }) => (
+    <RecipeCard recipe={item} mode="list" index={index} />
+  ), []);
+
+  const renderGridItem = useCallback(({ item, index }: { item: Recipe; index: number }) => (
+    <RecipeCard recipe={item} mode="grid" index={index} />
+  ), []);
 
   return (
-    <View className="flex-1 bg-background items-center justify-center px-6">
-      <View className="w-44 h-44 rounded-3xl bg-primary items-center justify-center mb-10">
-        <Text className="text-3xl font-bold text-primary-foreground">
-          Uniwind
-        </Text>
-        <Text className="text-sm mt-1 text-primary-foreground/70">
-          Pro Demo
-        </Text>
-      </View>
-
-      <Text className="text-foreground text-lg font-semibold mb-4">
-        Theme Transitions
-      </Text>
-
-      <View className="gap-3 w-full">
-        {transitions.map(({ label, preset }) => (
-          <Pressable
-            key={label}
-            className="bg-card px-5 py-3.5 rounded-2xl"
-            onPress={() => Uniwind.setTheme(nextTheme, { preset })}
-          >
-            <Text className="text-card-foreground text-base font-medium text-center">
-              {label}
+    <View className="flex-1 bg-background">
+      {/* ── Header ──────────────────────────────────── */}
+      <View className="pb-4 pt-safe-offset-4 bg-background">
+        {/* Title row */}
+        <View className="flex-row items-start justify-between mb-1 px-6">
+          <View className="uw-entering-fade-in-up">
+            <Text className="text-foreground text-3xl font-black tracking-tighter leading-tight">
+              Recipes
             </Text>
-          </Pressable>
-        ))}
+            <Text className="text-muted text-sm mt-0.5 uw-entering-fade-in uw-entering-delay-150">
+              {RECIPES.length} handpicked dishes
+            </Text>
+          </View>
+
+          {/* Layout toggle */}
+          <View className="flex-row gap-1 bg-surface border border-border rounded-2xl p-1 mt-1 uw-entering-fade-in uw-entering-delay-200">
+            <Pressable
+              onPress={() => setLayout('list')}
+              data-selected={layout === 'list'}
+              className="w-9 h-9 rounded-xl items-center justify-center data-[selected=true]:bg-primary active:opacity-70 transition-colors"
+            >
+              <UniIonicons
+                name="list"
+                size={18}
+                className='m-auto'
+                data-selected={layout === 'list'}
+                colorClassName='data-selected:accent-primary-foreground accent-primary'
+                style={{ lineHeight: 18, includeFontPadding: false }}
+              />
+            </Pressable>
+            <Pressable
+              onPress={() => setLayout('grid')}
+              data-selected={layout === 'grid'}
+              className="w-9 h-9 rounded-xl items-center justify-center data-[selected=true]:bg-primary active:opacity-70 transition-colors"
+            >
+              <UniIonicons
+                name="grid"
+                size={16}
+                className='m-auto'
+                data-selected={layout === 'grid'}
+                colorClassName='data-selected:accent-primary-foreground accent-primary'
+                style={{ lineHeight: 16, includeFontPadding: false }}
+              />
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Divider */}
+        <View className="h-px bg-border mt-3 mb-4 mx-6" />
+
+        {/* Category chips */}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={CATEGORIES}
+          keyExtractor={(c) => c}
+          contentContainerClassName="gap-2 px-6"
+          renderItem={({ item: cat }) => {
+            const isActive = selectedCategory === cat;
+            return (
+                <Pressable
+                  onPress={() => setSelectedCategory(cat)}
+                  data-selected={isActive}
+                  className="px-3 py-1.5 rounded-full border border-primary data-[selected=true]:bg-primary active:opacity-75 transition-colors"
+                >
+                  <Text
+                    data-selected={isActive}
+                    className="text-xs font-semibold data-selected:text-primary-foreground text-primary"
+                    numberOfLines={1}
+                  >
+                    {cat}
+                  </Text>
+                </Pressable>
+              );
+          }}
+        />
       </View>
 
-      <Text className="text-muted text-sm mt-8">
-        Current: {theme}
-      </Text>
+      {/* ── Recipe list / grid ───────────────────────── */}
+      {layout === 'list' ? (
+        <FlatList
+          key="list"
+          data={filteredRecipes}
+          keyExtractor={(r) => r.id}
+          renderItem={renderListItem}
+          contentContainerClassName="px-4 pb-safe-offset-24 gap-3 pt-2"
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <FlatList
+          key="grid"
+          data={filteredRecipes}
+          keyExtractor={(r) => r.id}
+          renderItem={renderGridItem}
+          numColumns={3}
+          columnWrapperClassName="gap-3 px-4"
+          contentContainerClassName="pb-safe-offset-24 gap-3 pt-2"
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
-  )
+  );
 }
