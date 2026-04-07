@@ -193,7 +193,7 @@ export default function RecipeScreen() {
             </Text>
           </View>
 
-          <View className="gap-0">
+          <View>
             {recipe.steps.map((step, i) => (
               <View key={i} className="flex-row gap-4">
                 {/* Step number + connector */}
