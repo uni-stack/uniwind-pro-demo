@@ -34,6 +34,8 @@ Want to test Uniwind Pro in your existing app? Copy `uniwind-pro-demo-ios-rn.0.8
 
 Then run `bun install && cd ios && pod install` (or `expo prebuild`) and start using Uniwind Pro classes in your components.
 
+If you are migrating an existing Uniwind (OSS) app, follow the [Migrate to Pro guide](https://docs.uniwind.dev/migrate-to-pro) for the full list of steps.
+
 ## Limitations
 
 - **iOS Simulator only** - the XCFramework is prebuilt for simulator arm64. No device builds, no Android
