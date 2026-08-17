@@ -1,4 +1,4 @@
-# Uniwind Pro Demo
+# Uniwind Pro Demo (1.6.0) Released 17 August 2026
 
 A prebuilt demo app showcasing [Uniwind Pro](https://uniwind.dev/pricing) features: the C++ engine, ShadowTree updates, Reanimated animations, native theme transitions, and scoped CSS variables. Vibecoded with [Uniwind skill](https://skills.sh/uni-stack/uniwind/uniwind).
 
