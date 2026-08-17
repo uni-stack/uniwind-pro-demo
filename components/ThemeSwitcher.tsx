@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { ThemeName, ThemeTransitionPreset, Uniwind, useUniwind } from 'uniwind';
+import { ThemeTransitionPreset, Uniwind, useUniwind } from 'uniwind';
 
 const TRANSITIONS = [
   { id: ThemeTransitionPreset.CircleTopRight, label: 'Circle' },
@@ -9,21 +9,15 @@ const TRANSITIONS = [
   { id: ThemeTransitionPreset.None, label: 'None' },
 ] as const;
 
-function getIsDark(theme: string): boolean {
-  return theme.startsWith('dark');
-}
-
 export function ThemeSwitcher() {
-  const { theme, hasAdaptiveThemes } = useUniwind();
+  const { theme } = useUniwind();
   const [open, setOpen] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState<ThemeTransitionPreset>(ThemeTransitionPreset.CircleTopRight);
 
-  const currentTheme = hasAdaptiveThemes ? Uniwind.currentTheme : theme;
-  const isDark = getIsDark(currentTheme);
+  const isDark = theme === 'dark';
 
   function applyTheme(dark: boolean) {
-    const newTheme = (dark ? 'dark-violet' : 'light-orange') as ThemeName;
-    Uniwind.setTheme(newTheme, { preset: selectedPreset });
+    Uniwind.setTheme(dark ? 'dark' : 'light', { preset: selectedPreset });
   }
 
   return (

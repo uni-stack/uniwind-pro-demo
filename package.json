@@ -21,7 +21,7 @@
     "react-native-screens": "4.26.2",
     "react-native-worklets": "0.8.3",
     "tailwindcss": "4.2.2",
-    "uniwind": "./uniwind-pro-demo-ios-only-rn.0.85.3.tgz"
+    "uniwind": "./uniwind-pro-demo-ios-rn.0.85.3.tgz"
   },
   "devDependencies": {
     "@types/react": "19.2.18",
